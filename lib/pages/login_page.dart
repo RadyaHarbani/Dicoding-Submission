@@ -143,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 30,
-                    bottom: 60,
+                    bottom: 40,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

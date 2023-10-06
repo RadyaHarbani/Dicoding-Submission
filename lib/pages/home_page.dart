@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_exercise/pages/login_page.dart';
+import 'package:flutter_exercise/pages/profile_page.dart';
 import 'package:flutter_exercise/pages/register_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,7 +17,7 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 30),
+                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -29,7 +30,6 @@ class HomePage extends StatelessWidget {
                             style: GoogleFonts.poppins(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
-                              height: 0.5,
                             ),
                           ),
                           Text(
@@ -40,25 +40,35 @@ class HomePage extends StatelessWidget {
                                     ? cNameSignIn!.text.toString()
                                     : cNameSignUp!.text.toString(),
                             style: GoogleFonts.poppins(
-                              fontSize: 5,
-                              color: Colors.grey[800],
-                              fontWeight: FontWeight.w600,
-                            ),
+                                fontSize: 15,
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.w600,
+                                height: 1),
                           ),
                         ],
                       ),
                     ),
-                    Container(
-                      width: 45,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Image.asset(
-                        'assets/icons/profile_icon.png',
-                        color: Colors.black,
-                        scale: .9,
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfilePage(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: 45,
+                        height: 45,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Image.asset(
+                          'assets/icons/profile_icon.png',
+                          color: Colors.black,
+                          scale: .9,
+                        ),
                       ),
                     ),
                   ],
