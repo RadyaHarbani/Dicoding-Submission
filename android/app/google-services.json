@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "188367164845",
+    "project_id": "dicoding-exercise-7d811",
+    "storage_bucket": "dicoding-exercise-7d811.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188367164845:android:579488353969db05c3bd24",
+        "android_client_info": {
+          "package_name": "com.example.flutter_exercise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqz037J5Gwb4Ynwg-sln2sGs9MVc0OoTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
