@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_exercise/pages/home_page.dart';
+import 'package:flutter_exercise/pages/bottom_nav_component.dart';
 import 'package:flutter_exercise/pages/register_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -41,20 +41,20 @@ class _LoginPageState extends State<LoginPage> {
       );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Login Berhasil'),
+          content: Text('LogIn Success'),
         ),
       );
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePage(),
+          builder: (context) => BottomNavComponent(),
         ),
         (route) => false,
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Login Gagal'),
+          content: Text('LogIn Failed'),
         ),
       );
     }
@@ -79,13 +79,13 @@ class _LoginPageState extends State<LoginPage> {
       await FirebaseAuth.instance.signInWithCredential(credential);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Login Sebagai ${googleUser.displayName}'),
+          content: Text('Logged in as ${googleUser.displayName}'),
         ),
       );
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePage(),
+          builder: (context) => BottomNavComponent(),
         ),
         (route) => false,
       );
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
       print('Google Sign-In error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Login Gagal'),
+          content: Text('LogIn Failed'),
         ),
       );
     }
@@ -199,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                     cursorColor: Colors.black,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Mohon isi kolom ini";
+                        return "Please enter your name";
                       }
                       return null;
                     },
@@ -246,9 +246,9 @@ class _LoginPageState extends State<LoginPage> {
                     cursorColor: Colors.black,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Masukkan Email";
+                        return "Please enter your email";
                       } else if (!isValidEmail(value)) {
-                        return "Email tidak valid";
+                        return "Please enter valid email";
                       }
                       return null;
                     },
@@ -313,9 +313,9 @@ class _LoginPageState extends State<LoginPage> {
                     cursorColor: Colors.black,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Masukkan Password";
+                        return "Please enter your password";
                       } else if (value.length < 6) {
-                        return "Minimal 6 Karakter";
+                        return "Password must be at least 6 characters";
                       }
                       return null;
                     },

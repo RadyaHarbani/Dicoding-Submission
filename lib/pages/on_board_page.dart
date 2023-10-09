@@ -9,7 +9,7 @@ class OnBoardingPage extends StatefulWidget {
   State<OnBoardingPage> createState() => _OnBoardingPageState();
 }
 
-int currentIndex = 0;
+int currentIndexOnBoard = 0;
 late PageController pageController;
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
@@ -49,7 +49,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 child: PageView.builder(
                   controller: pageController,
                   onPageChanged: (value) => setState(() {
-                    currentIndex = value;
+                    currentIndexOnBoard = value;
                   }),
                   itemCount: OnBoardingContentList().contentList.length,
                   itemBuilder: (context, index) => OnBoardingContent(
@@ -63,7 +63,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 ),
               ),
             ),
-            currentIndex == OnBoardingContentList().contentList.length - 1
+            currentIndexOnBoard == OnBoardingContentList().contentList.length - 1
                 ? InkWell(
                     onTap: () {
                       Navigator.pushReplacement(
@@ -107,7 +107,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   (index) => Padding(
                     padding: const EdgeInsets.only(right: 4),
                     child: DotIndicator(
-                      isActive: index == currentIndex,
+                      isActive: index == currentIndexOnBoard,
                     ),
                   ),
                 ),

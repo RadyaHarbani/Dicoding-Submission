@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_exercise/pages/home_page.dart';
+import 'package:flutter_exercise/pages/bottom_nav_component.dart';
 import 'package:flutter_exercise/pages/login_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -43,13 +43,13 @@ class _RegisterPageState extends State<RegisterPage> {
       );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Berhasil Membuat Akun"),
+          content: Text("Successfully created an account"),
         ),
       );
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePage(),
+          builder: (context) => BottomNavComponent(),
         ),
         (route) => false,
       );
@@ -81,13 +81,13 @@ class _RegisterPageState extends State<RegisterPage> {
       await FirebaseAuth.instance.signInWithCredential(credential);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Login Sebagai ${googleUser.displayName}'),
+          content: Text('Logged in as ${googleUser.displayName}'),
         ),
       );
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePage(),
+          builder: (context) => BottomNavComponent(),
         ),
         (route) => false,
       );
@@ -200,7 +200,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     cursorColor: Colors.black,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Mohon isi kolom ini";
+                        return "Please enter your name";
                       }
                       return null;
                     },
@@ -245,9 +245,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     cursorColor: Colors.black,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Masukkan Email";
+                        return "Please enter your email";
                       } else if (!isValidEmail(value)) {
-                        return "Email tidak valid";
+                        return "Please enter a valid email";
                       }
                       return null;
                     },
@@ -310,9 +310,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     cursorColor: Colors.black,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Masukkan Password";
+                        return "Please enter your password";
                       } else if (value.length < 6) {
-                        return "Password minimal 6 karakter";
+                        return "Password must be at least 6 characters";
                       }
                       return null;
                     },
@@ -375,9 +375,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     cursorColor: Colors.black,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Mohon isi kolom ini";
+                        return "Please enter your password";
                       } else if (value != cPassSignUp!.text) {
-                        return "Password tidak valid";
+                        return "Password doesn't match";
                       }
                       return null;
                     },
