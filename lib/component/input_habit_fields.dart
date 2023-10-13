@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_exercise/helper/constant_app.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-figmaFontSize(int fontSize) {
-  return fontSize * 0.95;
-}
 
 class InputHabitField extends StatelessWidget {
   const InputHabitField({
@@ -36,7 +33,7 @@ class InputHabitField extends StatelessWidget {
               style: GoogleFonts.poppins(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
-                fontSize: figmaFontSize(16),
+                fontSize:ConstantApp(). figmaFontSize(16),
               ),
             ),
           ),
@@ -66,12 +63,12 @@ class InputHabitField extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
-                      fontSize: figmaFontSize(15),
+                      fontSize:ConstantApp(). figmaFontSize(15),
                     ),
                     decoration: InputDecoration(
                       hintText: hint,
                       hintStyle: GoogleFonts.poppins(
-                        fontSize: figmaFontSize(15),
+                        fontSize:ConstantApp(). figmaFontSize(15),
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(

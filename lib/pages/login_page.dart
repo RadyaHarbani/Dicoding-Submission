@@ -1,6 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_exercise/component/bottom_nav_component.dart';
+import 'package:flutter_exercise/component/custom_button.dart';
+import 'package:flutter_exercise/component/custom_textfield.dart';
+import 'package:flutter_exercise/component/or_widget.dart';
+import 'package:flutter_exercise/helper/constant_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -20,9 +24,6 @@ bool isEmailSignIn = false;
 bool isGoogleSignIn = false;
 
 class _LoginPageState extends State<LoginPage> {
-  figmaFontSize(int fontSize) {
-    return fontSize * 0.95;
-  }
 
   bool isValidEmail(String email) {
     final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
@@ -115,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: Color(0xFFF2F4F7),
+      backgroundColor: Color(0xFFF2F4F7),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
@@ -157,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                       Text(
                         "Welcome Back! ",
                         style: GoogleFonts.poppins(
-                          fontSize: figmaFontSize(28),
+                          fontSize:ConstantApp(). figmaFontSize(28),
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF357658),
                         ),
@@ -169,249 +170,117 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: TextFormField(
-                    controller: cNameSignIn,
-                    keyboardType: TextInputType.name,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                      contentPadding: EdgeInsets.symmetric(vertical: 3),
-                      prefixIcon: Icon(
-                        Icons.person,
-                        size: 20,
-                        color: Color(0xFF7B7B7B),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(color: Colors.transparent),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(
-                          color: Colors.green,
-                          width: 1.5,
-                        ),
-                      ),
-                      hintText: "Username",
-                      hintStyle: GoogleFonts.poppins(
-                        fontSize: figmaFontSize(14),
-                      ),
-                    ),
-                    cursorColor: Colors.black,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Please enter your name";
-                      }
-                      return null;
-                    },
+                CustomTextfield(
+                  controller: cNameSignIn,
+                  obscureText: false,
+                  keyboardType: TextInputType.name,
+                  hintText: "Email",
+                  prefixIcon: Icon(
+                    Icons.person,
+                    size: 20,
+                    color: Color(0xFF7B7B7B),
                   ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your name";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: TextFormField(
-                    controller: cEmailSignIn,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 3),
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                      prefixIcon: Icon(
-                        Icons.email_rounded,
-                        size: 20,
-                        color: Color(0xFF7B7B7B),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.transparent,
-                        ),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(
-                          color: Colors.green,
-                          width: 1.5,
-                        ),
-                      ),
-                      hintText: "Email",
-                      hintStyle: GoogleFonts.poppins(
-                        fontSize: figmaFontSize(14),
-                      ),
-                    ),
-                    cursorColor: Colors.black,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Please enter your email";
-                      } else if (!isValidEmail(value)) {
-                        return "Please enter valid email";
-                      }
-                      return null;
-                    },
+                CustomTextfield(
+                  controller: cEmailSignIn,
+                  obscureText: false,
+                  keyboardType: TextInputType.emailAddress,
+                  hintText: "Email",
+                  prefixIcon: Icon(
+                    Icons.email_rounded,
+                    size: 20,
+                    color: Color(0xFF7B7B7B),
                   ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your email";
+                    } else if (!isValidEmail(value)) {
+                      return "Please enter valid email";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: TextFormField(
-                    controller: cPassSignIn,
-                    obscureText: isVisibleSignIn,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 3),
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                      prefixIcon: Icon(
-                        Icons.lock,
-                        size: 20,
-                        color: Color(0xFF7B7B7B),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.transparent,
-                        ),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(
-                          color: Colors.green,
-                          width: 1.5,
-                        ),
-                      ),
-                      hintText: "Password",
-                      hintStyle: GoogleFonts.poppins(
-                        fontSize: figmaFontSize(14),
-                      ),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isVisibleSignIn = !isVisibleSignIn;
-                          });
-                        },
-                        icon: isVisibleSignIn
-                            ? Icon(
-                                Icons.visibility_rounded,
-                                size: 23,
-                                color: Color(0xFF7B7B7B),
-                              )
-                            : Icon(
-                                Icons.visibility_off_rounded,
-                                size: 23,
-                                color: Color(0xFF7B7B7B),
-                              ),
-                      ),
-                    ),
-                    cursorColor: Colors.black,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Please enter your password";
-                      } else if (value.length < 6) {
-                        return "Password must be at least 6 characters";
-                      }
-                      return null;
-                    },
+                CustomTextfield(
+                  controller: cPassSignIn,
+                  obscureText: isVisibleSignIn,
+                  hintText: "Password",
+                  prefixIcon: Icon(
+                    Icons.lock,
+                    size: 20,
+                    color: Color(0xFF7B7B7B),
                   ),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isVisibleSignIn = !isVisibleSignIn;
+                      });
+                    },
+                    icon: isVisibleSignIn
+                        ? Icon(
+                            Icons.visibility_rounded,
+                            size: 23,
+                            color: Color(0xFF7B7B7B),
+                          )
+                        : Icon(
+                            Icons.visibility_off_rounded,
+                            size: 23,
+                            color: Color(0xFF7B7B7B),
+                          ),
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your password";
+                    } else if (value.length < 6) {
+                      return "Password must be at least 6 characters";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                InkWell(
-                  onTap: () {
-                    if (_formField.currentState!.validate()) {
-                      signInWithEmailAndPassword();
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 600),
-                      width: double.infinity,
-                      height: isEmailSignIn ? 70 : 46,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color(0xFF375A5A),
+                CustomButton(
+                    onTap: () {
+                      if (_formField.currentState!.validate()) {
+                        signInWithEmailAndPassword();
+                      }
+                    },
+                    isEmailOrGoogle: isEmailSignIn,
+                    isColor: true,
+                    child: Text(
+                      "Sign In",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: ConstantApp(). figmaFontSize(17),
+                        fontWeight: FontWeight.w500,
                       ),
-                      child: Center(
-                        child: isEmailSignIn
-                            ? Center(
-                                child: Text(
-                                  "Loading...",
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontSize: figmaFontSize(17),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              )
-                            : Text(
-                                "Login",
-                                style: GoogleFonts.poppins(
-                                  color: Color(0xFFFAFAFA),
-                                  fontSize: figmaFontSize(15),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                      ),
-                    ),
-                  ),
-                ),
+                    )),
                 SizedBox(
                   height: 30,
                 ),
-                Center(
-                  child: Image.asset("assets/images/or_widget.png"),
-                ),
+                OrWidget(),
                 SizedBox(
                   height: 30,
                 ),
-                InkWell(
+                CustomButton(
                   onTap: () {
                     signInWithGoogle();
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 25, right: 25),
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 600),
-                      width: double.infinity,
-                      height: isGoogleSignIn ? 70 : 50,
-                      
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.transparent,
-                        border: Border.all(
-                          width: 1,
-                          color: Color(0xFF0F110E),
-                        ),
-                      ),
-                      child: isGoogleSignIn
-                          ? Center(
-                              child: Text(
-                                "Loading...",
-                                style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontSize: figmaFontSize(17),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            )
-                          : Image.asset("assets/icons/google_icon.png"),
-                    ),
-                  ),
+                  isEmailOrGoogle: isGoogleSignIn,
+                  isColor: false,
+                  child: Image.asset("assets/icons/google_icon.png"),
                 ),
                 SizedBox(
                   height: 30,

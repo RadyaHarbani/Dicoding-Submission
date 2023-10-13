@@ -2,6 +2,7 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_exercise/component/input_habit_bottom_sheet.dart';
+import 'package:flutter_exercise/helper/constant_app.dart';
 import 'package:flutter_exercise/pages/login_page.dart';
 import 'package:flutter_exercise/pages/profile_page.dart';
 import 'package:flutter_exercise/pages/register_page.dart';
@@ -18,9 +19,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    figmaFontSize(int fontSize) {
-      return fontSize * 0.95;
-    }
 
     return Scaffold(
       backgroundColor: Color(0xFFF2F4F7),
@@ -132,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                                 DateTime.now(),
                               ),
                               style: GoogleFonts.poppins(
-                                fontSize: figmaFontSize(15),
+                                fontSize:ConstantApp(). figmaFontSize(15),
                                 fontWeight: FontWeight.w500,
                                 height: 0.8,
                               ),
@@ -140,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                             Text(
                               "Today",
                               style: GoogleFonts.poppins(
-                                fontSize: figmaFontSize(20),
+                                fontSize:ConstantApp(). figmaFontSize(20),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -159,15 +157,15 @@ class _HomePageState extends State<HomePage> {
                       child: DatePicker(
                         DateTime.now(),
                         monthTextStyle: GoogleFonts.poppins(
-                          fontSize: figmaFontSize(15),
+                          fontSize:ConstantApp(). figmaFontSize(15),
                           fontWeight: FontWeight.w500,
                         ),
                         dateTextStyle: GoogleFonts.poppins(
-                          fontSize: figmaFontSize(20),
+                          fontSize:ConstantApp(). figmaFontSize(20),
                           fontWeight: FontWeight.w500,
                         ),
                         dayTextStyle: GoogleFonts.poppins(
-                          fontSize: figmaFontSize(15),
+                          fontSize:ConstantApp(). figmaFontSize(15),
                           fontWeight: FontWeight.w500,
                         ),
                         width: 65,

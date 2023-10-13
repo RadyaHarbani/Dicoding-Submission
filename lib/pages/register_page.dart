@@ -1,6 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_exercise/component/bottom_nav_component.dart';
+import 'package:flutter_exercise/component/custom_button.dart';
+import 'package:flutter_exercise/component/custom_textfield.dart';
+import 'package:flutter_exercise/component/or_widget.dart';
+import 'package:flutter_exercise/helper/constant_app.dart';
 import 'package:flutter_exercise/pages/login_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -23,10 +27,6 @@ bool isEmailSignUp = false;
 bool isGoogleSignUp = false;
 
 class _RegisterPageState extends State<RegisterPage> {
-  figmaFontSize(int fontSize) {
-    return fontSize * 0.95;
-  }
-
   bool isValidEmail(String email) {
     final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
     return emailRegex.hasMatch(email);
@@ -153,7 +153,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       Text(
                         "Create an account",
                         style: GoogleFonts.poppins(
-                          fontSize: figmaFontSize(28),
+                          fontSize: ConstantApp().figmaFontSize(28),
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF357658),
                         ),
@@ -161,308 +161,159 @@ class _RegisterPageState extends State<RegisterPage> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: TextFormField(
-                    controller: cNameSignUp,
-                    keyboardType: TextInputType.name,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                      contentPadding: EdgeInsets.symmetric(vertical: 3),
-                      prefixIcon: Icon(
-                        Icons.person,
-                        size: 20,
-                        color: Color(0xFF7B7B7B),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(color: Colors.transparent),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(
-                          color: Colors.green,
-                          width: 1.5,
-                        ),
-                      ),
-                      hintText: "Username",
-                      hintStyle: GoogleFonts.poppins(
-                        fontSize: figmaFontSize(14),
-                      ),
-                    ),
-                    cursorColor: Colors.black,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Please enter your name";
-                      }
-                      return null;
+                CustomTextfield(
+                  controller: cNameSignUp,
+                  obscureText: false,
+                  keyboardType: TextInputType.name,
+                  prefixIcon: Icon(
+                    Icons.person,
+                    size: 20,
+                    color: Color(0xFF7B7B7B),
+                  ),
+                  hintText: "Username",
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your name";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CustomTextfield(
+                  controller: cEmailSignUp,
+                  obscureText: false,
+                  keyboardType: TextInputType.emailAddress,
+                  prefixIcon: Icon(
+                    Icons.email_rounded,
+                    size: 20,
+                    color: Color(0xFF7B7B7B),
+                  ),
+                  hintText: "Email",
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your email";
+                    } else if (!isValidEmail(value)) {
+                      return "Please enter a valid email";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CustomTextfield(
+                  controller: cPassSignUp,
+                  obscureText: isVisiblePass,
+                  keyboardType: TextInputType.visiblePassword,
+                  prefixIcon: Icon(
+                    Icons.lock_rounded,
+                    size: 20,
+                    color: Color(0xFF7B7B7B),
+                  ),
+                  hintText: "Password",
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your password";
+                    } else if (value.length < 6) {
+                      return "Password must be at least 6 characters";
+                    }
+                    return null;
+                  },
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isVisiblePass = !isVisiblePass;
+                      });
                     },
+                    icon: isVisiblePass
+                        ? Icon(
+                            Icons.visibility_rounded,
+                            size: 23,
+                            color: Color(0xFF7B7B7B),
+                          )
+                        : Icon(
+                            Icons.visibility_off_rounded,
+                            size: 23,
+                            color: Color(0xFF7B7B7B),
+                          ),
                   ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: TextFormField(
-                    controller: cEmailSignUp,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                      contentPadding: EdgeInsets.symmetric(vertical: 3),
-                      prefixIcon: Icon(
-                        Icons.email_rounded,
-                        size: 20,
-                        color: Color(0xFF7B7B7B),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(color: Colors.transparent),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(
-                          color: Colors.green,
-                          width: 1.5,
-                        ),
-                      ),
-                      hintText: "Email",
-                      hintStyle: GoogleFonts.poppins(
-                        fontSize: figmaFontSize(14),
-                      ),
-                    ),
-                    cursorColor: Colors.black,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Please enter your email";
-                      } else if (!isValidEmail(value)) {
-                        return "Please enter a valid email";
-                      }
-                      return null;
-                    },
+                CustomTextfield(
+                  controller: cConfirmPassSignUp,
+                  obscureText: isVisibleConfirm,
+                  keyboardType: TextInputType.visiblePassword,
+                  prefixIcon: Icon(
+                    Icons.lock_rounded,
+                    size: 20,
+                    color: Color(0xFF7B7B7B),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: TextFormField(
-                    controller: cPassSignUp,
-                    obscureText: isVisiblePass,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                      contentPadding: EdgeInsets.symmetric(vertical: 3),
-                      prefixIcon: Icon(
-                        Icons.lock_rounded,
-                        size: 20,
-                        color: Color(0xFF7B7B7B),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(color: Colors.transparent),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(
-                          color: Colors.green,
-                          width: 1.5,
-                        ),
-                      ),
-                      hintText: "Password",
-                      hintStyle: GoogleFonts.poppins(
-                        fontSize: figmaFontSize(14),
-                      ),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isVisiblePass = !isVisiblePass;
-                          });
-                        },
-                        icon: isVisiblePass
-                            ? Icon(
-                                Icons.visibility_rounded,
-                                size: 23,
-                                color: Color(0xFF7B7B7B),
-                              )
-                            : Icon(
-                                Icons.visibility_off_rounded,
-                                size: 23,
-                                color: Color(0xFF7B7B7B),
-                              ),
-                      ),
-                    ),
-                    cursorColor: Colors.black,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Please enter your password";
-                      } else if (value.length < 6) {
-                        return "Password must be at least 6 characters";
-                      }
-                      return null;
+                  hintText: "Confirm Password",
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your password";
+                    } else if (value != cPassSignUp!.text) {
+                      return "Password doesn't match";
+                    }
+                    return null;
+                  },
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isVisibleConfirm = !isVisibleConfirm;
+                      });
                     },
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: TextFormField(
-                    controller: cConfirmPassSignUp,
-                    obscureText: isVisibleConfirm,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                      contentPadding: EdgeInsets.symmetric(vertical: 3),
-                      prefixIcon: Icon(
-                        Icons.lock_rounded,
-                        size: 20,
-                        color: Color(0xFF7B7B7B),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(color: Colors.transparent),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(
-                          color: Colors.green,
-                          width: 1.5,
-                        ),
-                      ),
-                      hintText: "Confirm Password",
-                      hintStyle: GoogleFonts.poppins(
-                        fontSize: figmaFontSize(14),
-                      ),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isVisibleConfirm = !isVisibleConfirm;
-                          });
-                        },
-                        icon: isVisibleConfirm
-                            ? Icon(
-                                Icons.visibility_rounded,
-                                size: 23,
-                                color: Color(0xFF7B7B7B),
-                              )
-                            : Icon(
-                                Icons.visibility_off_rounded,
-                                size: 23,
-                                color: Color(0xFF7B7B7B),
-                              ),
-                      ),
-                    ),
-                    cursorColor: Colors.black,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Please enter your password";
-                      } else if (value != cPassSignUp!.text) {
-                        return "Password doesn't match";
-                      }
-                      return null;
-                    },
+                    icon: isVisibleConfirm
+                        ? Icon(
+                            Icons.visibility_rounded,
+                            size: 23,
+                            color: Color(0xFF7B7B7B),
+                          )
+                        : Icon(
+                            Icons.visibility_off_rounded,
+                            size: 23,
+                            color: Color(0xFF7B7B7B),
+                          ),
                   ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                InkWell(
+                CustomButton(
                   onTap: () {
                     if (_formField.currentState!.validate()) {
                       createUserWithEmailAndPassword();
                     }
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Container(
-                      width: double.infinity,
-                      height: isEmailSignUp ? 70 : 46,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color(0xFF375A5A),
-                      ),
-                      child: Center(
-                        child: isEmailSignUp
-                            ? Center(
-                                child: Text(
-                                  "Loading...",
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.black,
-                                    fontSize: figmaFontSize(17),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              )
-                            : Text(
-                                "Register",
-                                style: GoogleFonts.poppins(
-                                  color: Color(0xFFFAFAFA),
-                                  fontSize: figmaFontSize(15),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                      ),
+                  isEmailOrGoogle: isEmailSignUp,
+                  isColor: true,
+                  child: Text(
+                    "Register",
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: ConstantApp().figmaFontSize(17),
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 30,
                 ),
-                Center(
-                  child: Image.asset("assets/images/or_widget.png"),
-                ),
+                OrWidget(),
                 SizedBox(
                   height: 30,
                 ),
-                InkWell(
+                CustomButton(
                   onTap: () {
                     signUpWithGoogle();
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 25, right: 25),
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 600),
-                      width: double.infinity,
-                      height: isGoogleSignUp ? 70 : 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.transparent,
-                        border: Border.all(
-                          width: 1,
-                          color: Color(0xFF0F110E),
-                        ),
-                      ),
-                      child: isGoogleSignUp
-                          ? Center(
-                              child: Text(
-                                "Loading...",
-                                style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontSize: figmaFontSize(17),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            )
-                          : Image.asset("assets/icons/google_icon.png"),
-                    ),
-                  ),
+                  isEmailOrGoogle: isGoogleSignUp,
+                  isColor: false,
+                  child: Image.asset("assets/icons/google_icon.png"),
                 ),
                 SizedBox(
                   height: 30,

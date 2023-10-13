@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_exercise/component/input_habit_fields.dart';
+import 'package:flutter_exercise/helper/constant_app.dart';
 import 'package:flutter_exercise/model/models_habit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -321,7 +322,7 @@ class _InputHabitBottomSheetState extends State<InputHabitBottomSheet> {
                           "Add Habit",
                           style: GoogleFonts.poppins(
                             color: Color(0xFFFAFAFA),
-                            fontSize: figmaFontSize(15),
+                            fontSize:ConstantApp(). figmaFontSize(15),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -351,7 +352,7 @@ class _InputHabitBottomSheetState extends State<InputHabitBottomSheet> {
                           "Cancel",
                           style: GoogleFonts.poppins(
                             color: Color(0xFF375A5A),
-                            fontSize: figmaFontSize(15),
+                            fontSize: ConstantApp(). figmaFontSize(15),
                             fontWeight: FontWeight.w600,
                           ),
                         ),
