@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_exercise/pages/on_board_page.dart';
+import 'package:flutter_exercise/pages/register_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,14 +16,17 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _splash() async {
-    await Future.delayed(Duration(milliseconds: 2000), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => OnBoardingPage(),
-        ),
-      );
-    });
+    await Future.delayed(
+      Duration(milliseconds: 2000),
+      () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RegisterPage(),
+          ),
+        );
+      },
+    );
   }
 
   @override

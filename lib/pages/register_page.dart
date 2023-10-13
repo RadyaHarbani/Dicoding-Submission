@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_exercise/pages/bottom_nav_component.dart';
+import 'package:flutter_exercise/component/bottom_nav_component.dart';
 import 'package:flutter_exercise/pages/login_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -33,10 +33,10 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> createUserWithEmailAndPassword() async {
-    setState(() {
-      isEmailSignUp;
-    });
     try {
+      setState(() {
+        isEmailSignUp = true;
+      });
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: cEmailSignUp!.text,
         password: cPassSignUp!.text,
@@ -54,22 +54,22 @@ class _RegisterPageState extends State<RegisterPage> {
         (route) => false,
       );
     } catch (e) {
+      setState(() {
+        isEmailSignUp = false;
+      });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.toString()),
         ),
       );
     }
-    setState(() {
-      isEmailSignUp = true;
-    });
   }
 
-  Future<void> signInWithGoogle() async {
-    setState(() {
-      isGoogleSignUp;
-    });
+  Future<void> signUpWithGoogle() async {
     try {
+      setState(() {
+        isGoogleSignUp = true;
+      });
       GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
 
@@ -92,6 +92,9 @@ class _RegisterPageState extends State<RegisterPage> {
         (route) => false,
       );
     } catch (e) {
+      setState(() {
+        isGoogleSignUp = false;
+      });
       print('Google Sign-In error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -99,9 +102,6 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       );
     }
-    setState(() {
-      isGoogleSignUp = true;
-    });
   }
 
   @override
@@ -116,6 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF2F4F7),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
@@ -131,12 +132,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     bottom: 30,
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      InkWell(
-                        onTap: () => Navigator.pop(context),
-                        child: Image.asset("assets/icons/arrow_back.png"),
-                      ),
                       Image.asset("assets/logos/logo_hug_horizontal.png")
                     ],
                   ),
@@ -403,9 +400,18 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       child: Center(
                         child: isEmailSignUp
-                            ? CircularProgressIndicator()
+                            ? Center(
+                                child: Text(
+                                  "Loading...",
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: figmaFontSize(17),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              )
                             : Text(
-                                "Daftar",
+                                "Register",
                                 style: GoogleFonts.poppins(
                                   color: Color(0xFFFAFAFA),
                                   fontSize: figmaFontSize(15),
@@ -427,11 +433,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    signInWithGoogle();
+                    signUpWithGoogle();
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(left: 25, right: 25),
-                    child: Container(
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 600),
                       width: double.infinity,
                       height: isGoogleSignUp ? 70 : 50,
                       decoration: BoxDecoration(
@@ -444,8 +451,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       child: isGoogleSignUp
                           ? Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.black,
+                              child: Text(
+                                "Loading...",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: figmaFontSize(17),
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             )
                           : Image.asset("assets/icons/google_icon.png"),
@@ -459,7 +471,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Already as User?",
+                      "Already as user?",
                       style: GoogleFonts.poppins(
                         color: Color(0xFF0F110E),
                       ),

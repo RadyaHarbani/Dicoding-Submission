@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_exercise/pages/habit_page.dart';
 import 'package:flutter_exercise/pages/home_page.dart';
 import 'package:flutter_exercise/pages/profile_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,10 +18,6 @@ List<BottomNavigationBarItem> listIconNav = [
     label: 'Home',
   ),
   BottomNavigationBarItem(
-    icon: Icon(Icons.accessibility_new),
-    label: 'Habit',
-  ),
-  BottomNavigationBarItem(
     icon: Icon(Icons.auto_awesome_mosaic_rounded),
     label: 'Article',
   ),
@@ -30,7 +25,6 @@ List<BottomNavigationBarItem> listIconNav = [
 
 List<Widget> listPageValue = [
   HomePage(),
-  HabitPage(),
   ProfilePage(),
 ];
 
@@ -40,6 +34,7 @@ class _BottomNavComponentState extends State<BottomNavComponent> {
     return Scaffold(
       body: listPageValue[currentIndexBottomNav],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFFF2F4F7),
         items: listIconNav,
         currentIndex: currentIndexBottomNav,
         onTap: (value) {

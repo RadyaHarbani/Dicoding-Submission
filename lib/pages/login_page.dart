@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_exercise/pages/bottom_nav_component.dart';
-import 'package:flutter_exercise/pages/register_page.dart';
+import 'package:flutter_exercise/component/bottom_nav_component.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -31,10 +30,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> signInWithEmailAndPassword() async {
-    setState(() {
-      isEmailSignIn;
-    });
     try {
+      setState(() {
+        isEmailSignIn = true;
+      });
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: cEmailSignIn!.text,
         password: cPassSignIn!.text,
@@ -52,22 +51,23 @@ class _LoginPageState extends State<LoginPage> {
         (route) => false,
       );
     } catch (e) {
+      print('Login error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('LogIn Failed'),
         ),
       );
+      setState(() {
+        isEmailSignIn = false;
+      });
     }
-    setState(() {
-      isEmailSignIn = true;
-    });
   }
 
   Future<void> signInWithGoogle() async {
-    setState(() {
-      isGoogleSignIn;
-    });
     try {
+      setState(() {
+        isGoogleSignIn = true;
+      });
       GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
 
@@ -90,6 +90,9 @@ class _LoginPageState extends State<LoginPage> {
         (route) => false,
       );
     } catch (e) {
+      setState(() {
+        isGoogleSignIn = false;
+      });
       print('Google Sign-In error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -97,9 +100,6 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     }
-    setState(() {
-      isGoogleSignIn = true;
-    });
   }
 
   @override
@@ -115,6 +115,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+            backgroundColor: Color(0xFFF2F4F7),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
@@ -124,17 +125,22 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
-                    top: 20,
-                    left: 30,
+                    top: 10,
+                    left: 15,
                     right: 30,
                     bottom: 40,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      InkWell(
-                        onTap: () => Navigator.pop(context),
-                        child: Image.asset("assets/icons/arrow_back.png"),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(
+                          Icons.arrow_back_ios_rounded,
+                          size: 18,
+                        ),
                       ),
                       Image.asset("assets/logos/logo_hug_horizontal.png")
                     ],
@@ -342,8 +348,15 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: Center(
                         child: isEmailSignIn
-                            ? CircularProgressIndicator(
-                                color: Colors.black,
+                            ? Center(
+                                child: Text(
+                                  "Loading...",
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: figmaFontSize(17),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
                               )
                             : Text(
                                 "Login",
@@ -373,9 +386,10 @@ class _LoginPageState extends State<LoginPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 25, right: 25),
                     child: AnimatedContainer(
+                      duration: Duration(milliseconds: 600),
                       width: double.infinity,
                       height: isGoogleSignIn ? 70 : 50,
-                      duration: Duration(milliseconds: 600),
+                      
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.transparent,
@@ -386,8 +400,13 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: isGoogleSignIn
                           ? Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.black,
+                              child: Text(
+                                "Loading...",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: figmaFontSize(17),
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             )
                           : Image.asset("assets/icons/google_icon.png"),
@@ -396,35 +415,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(
                   height: 30,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "New User?",
-                      style: GoogleFonts.poppins(
-                        color: Color(0xFF0F110E),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 3,
-                    ),
-                    InkWell(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RegisterPage(),
-                        ),
-                      ),
-                      child: Text(
-                        "Sign Up",
-                        style: TextStyle(
-                          color: Color(0xFF0F110E),
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
